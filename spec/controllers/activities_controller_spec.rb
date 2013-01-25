@@ -35,6 +35,9 @@ describe ActivitiesController do
   end
 
   describe "GET all activities for given user_id" do
+    before(:each) do
+      FactoryGirl.create(:user, :id => 2)
+    end
     it "assigns all activities as @activities" do
       activity1 = FactoryGirl.create(:activity, :user_id => 2)
       activity2 = FactoryGirl.create(:activity, :user_id => 2)

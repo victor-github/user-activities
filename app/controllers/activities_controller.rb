@@ -7,7 +7,6 @@ class ActivitiesController < ApplicationController
   # Returns activities for given user_id
   # @urlparam user_id (required)
   def index
-
     user = User.where(id: params[:user_id]).first
     if user.nil?
       errors = "Invalid user"
@@ -69,31 +68,31 @@ class ActivitiesController < ApplicationController
     end
   end
 
-  # PUT /activities/1
-  # PUT /activities/1.json
-  def update
-    @activity = current_user.activities.find(params[:id])
+  ## PUT /activities/1
+  ## PUT /activities/1.json
+  #def update
+    #@activity = current_user.activities.find(params[:id])
 
-    respond_to do |format|
-      if @activity.update_attributes(params[:activity])
-        format.html { redirect_to @activity, notice: 'Activity was successfully updated.' }
-        format.json { head :no_content }
-      else
-        format.html { render action: "edit" }
-        format.json { render json: @activity.errors, status: :unprocessable_entity }
-      end
-    end
-  end
+    #respond_to do |format|
+      #if @activity.update_attributes(params[:activity])
+        #format.html { redirect_to @activity, notice: 'Activity was successfully updated.' }
+        #format.json { head :no_content }
+      #else
+        #format.html { render action: "edit" }
+        #format.json { render json: @activity.errors, status: :unprocessable_entity }
+      #end
+    #end
+  #end
 
-  # DELETE /activities/1
-  # DELETE /activities/1.json
-  def destroy
-    @activity = Activity.find(params[:id])
-    @activity.destroy
+  ## DELETE /activities/1
+  ## DELETE /activities/1.json
+  #def destroy
+    #@activity = Activity.find(params[:id])
+    #@activity.destroy
 
-    respond_to do |format|
-      format.html { redirect_to activities_url }
-      format.json { head :no_content }
-    end
-  end
+    #respond_to do |format|
+      #format.html { redirect_to activities_url }
+      #format.json { head :no_content }
+    #end
+  #end
 end

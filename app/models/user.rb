@@ -6,4 +6,14 @@ class User < ActiveRecord::Base
 
   has_and_belongs_to_many :followed, :class_name => User, :join_table => :followings, :foreign_key => :follower_user_id, :association_foreign_key => :followed_user_id
   has_and_belongs_to_many :followers, :class_name => User, :join_table => :followings, :foreign_key => :followed_user_id, :association_foreign_key => :follower_user_id
+
+  def follow(user)
+    return unless user != self 
+    self.followed << user
+    self.save!
+  end
+
+  def follows?(user)
+    self.followed.include?(user)
+  end
 end

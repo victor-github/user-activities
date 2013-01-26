@@ -1,10 +1,15 @@
 Updates::Application.routes.draw do
 
-  resources :activities
+  resources :activities do
+    collection do
+      get :latest_followed
+    end
+  end
 
   devise_for :users
 
   root :to => 'home#index'
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

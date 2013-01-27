@@ -8,13 +8,14 @@ class ActivitiesController < ApplicationController
   def index
     @user = User.where(id: params[:user_id]).first
     if @user.nil?
-      @errors = "Invalid user"
+      redirect_to '/activities/latest_followed'
+      return
     else
       @activities = @user.activities
     end
 
     respond_to do |format|
-      format.html # index.html.erb
+      format.html { render :action => 'latest_followed'}
     end
   end
 
@@ -23,8 +24,7 @@ class ActivitiesController < ApplicationController
     followed = current_user.follows.map(&:id)
     since = 2.days.ago #TODO: configurable
     t = Activity.arel_table
-    @activities = Activity.where(t[:user_id].in(followed).and(t[:updated_at].gteq(since)))
-    render :action => 'index'
+    @activities = Activity.where(t[:user_id].in(followed).and(t[:updated_at].gteq(since)).or(t[:user_id].eq(current_user.id))).order("updated_at desc")
   end
 
   # GET /activities/1

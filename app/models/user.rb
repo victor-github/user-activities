@@ -21,4 +21,8 @@ class User < ActiveRecord::Base
     self.activities.create(:status => status)
   end
 
+  def nickname
+    self.email[/[^@]+/]
+  end
+
 end

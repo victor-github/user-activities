@@ -1,25 +1,16 @@
-<h1>Listing activities</h1>
-
+<%= activity_page_title%>
 <table>
   <tr>
-    <th>Status</th>
-    <th>User</th>
-    <th></th>
     <th></th>
     <th></th>
   </tr>
 
-<% @activities.each do |activity| %>
-  <tr>
-    <td><%= activity.status %></td>
-    <td><%= activity.user_id %></td>
-    <td><%= link_to 'Show', activity %></td>
-    <td><%= link_to 'Edit', edit_activity_path(activity) %></td>
-    <td><%= link_to 'Destroy', activity, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-  </tr>
-<% end %>
+  <% @activities.each do |activity| %>
+    <tr>
+      <td><%= display_datetime(activity.updated_at) %> <a href="<%= url_for :controller => 'activities', :action => 'index', :user_id => activity.user.id%>"> <%=activity.user.nickname%></a> said </td>
+      <td><span class="status"><%= activity.status %></span></td>
+    </tr>
+  <% end %>
 </table>
 
 <br />
-
-<%= link_to 'New Activity', new_activity_path %>

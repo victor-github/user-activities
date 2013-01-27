@@ -6,11 +6,11 @@ class ActivitiesController < ApplicationController
   # Returns activities for given user_id
   # @urlparam user_id (required)
   def index
-    user = User.where(id: params[:user_id]).first
-    if user.nil?
+    @user = User.where(id: params[:user_id]).first
+    if @user.nil?
       @errors = "Invalid user"
     else
-      @activities = user.activities
+      @activities = @user.activities
     end
 
     respond_to do |format|
@@ -24,7 +24,7 @@ class ActivitiesController < ApplicationController
     since = 2.days.ago #TODO: configurable
     t = Activity.arel_table
     @activities = Activity.where(t[:user_id].in(followed).and(t[:updated_at].gteq(since)))
-    render :action => 'index', :controller => 'home'
+    render :action => 'index'
   end
 
   # GET /activities/1

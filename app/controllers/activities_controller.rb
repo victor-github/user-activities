@@ -3,8 +3,8 @@ class ActivitiesController < ApplicationController
   before_filter :authenticate_user!, :only => [:create, :new, :latest_followed]
 
   # GET /activities
-  # Returns activities for given user_id
-  # @urlparam user_id (required)
+  # Gets activities for given user_id, if specified, or all activities from followed users otherwise 
+  # @urlparam user_id (optional)
   def index
     @user = User.where(id: params[:user_id]).first
     if @user.nil?
@@ -20,9 +20,10 @@ class ActivitiesController < ApplicationController
   end
 
   #GET /activities/latest_followed
+  #Gets all activities from followed users
   def latest_followed
     followed = current_user.follows.map(&:id)
-    since = SINCE #TODO: configurable
+    since = SINCE 
     t = Activity.arel_table
     @activities = Activity.where(t[:user_id].in(followed).and(t[:updated_at].gteq(since)).or(t[:user_id].eq(current_user.id))).order("updated_at desc")
   end
@@ -37,7 +38,7 @@ class ActivitiesController < ApplicationController
     end
   end
 
-  # POST /activities
+  # POST /activities.json
   def create
     respond_to do |format|
       if params[:activity][:status].present?

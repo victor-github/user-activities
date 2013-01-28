@@ -6,7 +6,8 @@ Uses Rails 3, RSpec 2 and Devise.
 
 Functions:
 
-* create an activity (for current_user)
-* "follow" a particular user
-* see all activities for given user
-* see all recent activities of followed users
+* create an activity (for current_user) POST /activities/create {status: "status"}
+* "follow" a particular user POST /users/follow {user_id: 2}
+* "unfollow" POST /users/unfollow {user_id: 2}
+* see all activities for given user GET /activities?user_id=2
+* see all recent activities for followed users GET /activities/latest_followed

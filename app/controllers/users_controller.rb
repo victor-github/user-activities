@@ -5,8 +5,8 @@ class UsersController < ApplicationController
     @users = User.all
   end
 
-  #/users/follow
-  #@param user_id (required) - user to unfollow
+  #POST /users/follow
+  #@param user_id (required) - user to follow
   def follow
     u = User.where(id: params[:user_id]).first
     if u.present?
@@ -23,6 +23,8 @@ class UsersController < ApplicationController
     end
   end
 
+  #POST /users/unfollow
+  #@param user_id (required) - user to unfollow
   def unfollow
     u = User.where(id: params[:user_id]).first
     if u.present?

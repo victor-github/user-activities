@@ -6,9 +6,13 @@ Updates::Application.routes.draw do
     end
   end
 
-  resources :users
   devise_for :users
-
+  resources :users do
+    collection do
+      post :follow
+      post :unfollow
+    end
+  end
 
   root :to => 'activities#latest_followed'
 

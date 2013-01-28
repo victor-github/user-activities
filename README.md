@@ -6,7 +6,7 @@ Uses Rails 3, RSpec 2 and Devise.
 
 Functions:
 
-* create an activity (for current_user) (TODO front-end)
-* "follow" a particular user (TODO)
-* see all activities for given user (TODO)
-* see all recent activities of followed users (TODO)
+* create an activity (for current_user)
+* "follow" a particular user
+* see all activities for given user
+* see all recent activities of followed users

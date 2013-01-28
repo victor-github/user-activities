@@ -1,0 +1,18 @@
+Users:
+
+<table>
+  <tr>
+  <th></th>
+  <th></th>
+  <th></th>
+  </tr>
+
+  <% @users.each {|u| %>
+  <tr>
+  <td><%= u.nickname %></td>
+  <td>(<%= u.email %>)</td>
+  <td><%= follow_link(u) unless u == current_user %></td>
+  </tr>
+  <% } %>
+
+</table>

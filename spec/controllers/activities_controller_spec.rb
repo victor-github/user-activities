@@ -47,14 +47,6 @@ describe ActivitiesController do
     end
   end
 
-  describe "GET new" do
-    login_first_user
-    it "assigns a new activity as @activity" do
-      get :new, {}, {}
-      assigns(:activity).should be_a_new(Activity)
-    end
-  end
-
 
   describe "POST create" do
     login_first_user
@@ -66,35 +58,44 @@ describe ActivitiesController do
     describe "with a valid, non-empty status" do
       it "creates a new user activity for current_user" do
         expect {
-          post :create, {:activity => valid_attributes}, {}
+          post :create, :activity => valid_attributes, :format => :json
         }.to change(Activity, :count).by(1)
       end
 
       it "assigns a newly created activity as @activity" do
-        post :create, {:activity => valid_attributes}, {}
+        post :create, :activity => valid_attributes, :format => :json
         assigns(:activity).should be_a(Activity)
         assigns(:activity).should be_persisted
       end
 
-      it "redirects to the created activity" do
-        post :create, {:activity => valid_attributes}, {}
-        response.should redirect_to(Activity.last)
+      it "returns the json representation of the activity, and no errors" do
+        post :create, :activity => valid_attributes, :format => :json
+        JSON.parse(response.body)['errors'].should be_nil
       end
+
+      it "should render the activity json response with 201 (created) code" do
+        post :create, :activity => valid_attributes, :format => :json
+        response.status.should == 201
+        JSON.parse(response.body)['status'].should == "My Updated Status"
+      end
+
+
     end
 
     describe "with a blank, invalid status" do
 
-      it "assigns a newly created but unsaved activity as @activity" do
+      it "does not assign an activity as @activity" do
         Activity.any_instance.stub(:save).and_return(false)
-        post :create, {:activity => { "status" => "" }}, {}
-        assigns(:activity).should be_a_new(Activity)
+        post :create, {:activity => { "status" => "" }}, format: :json
+        assigns(:activity).should be_nil
       end
 
-      it "re-renders the 'new' template" do
-        Activity.any_instance.stub(:save).and_return(false)
-        post :create, {:activity => { "status" => "" }}, {}
-        response.should render_template("new")
+      it "responds with status 406" do
+        post :create, {:activity => { "status" => "" }}, format: :json
+        response.status.should == 406
       end
+
+
     end
   end
 

@@ -17,7 +17,9 @@ describe User do
     @u1.follows?(@u1).should == false
   end
 
-  pending "can unfollow a user" do
+  it "can unfollow a user" do
+    @u1.unfollow(@u2)
+    @u1.follows?(@u2).should == false
   end 
 
   it "can add an activity" do

@@ -1,25 +1,20 @@
-Post an Update:
-<form id="status_form">
-  <textarea id="status_area"></textarea>
-  <br/>
-  <button id="post_update_button" type="button">Post</button>
-</form>
+<%= render :partial => "post_update_form" %>
 
 <br/>
 
-<%= activity_page_title%>
-<table>
-  <tr>
-    <th></th>
-    <th></th>
-  </tr>
-
-  <% @activities.each do |activity| %>
+<div id="wall">
+  <div id="activity_page_title"><%= activity_page_title %></div>
+  <table>
     <tr>
-      <td><%= display_datetime(activity.updated_at) %> <a href="<%= url_for :controller => 'activities', :action => 'index', :user_id => activity.user.id%>"> <%=activity.user.nickname%></a> said </td>
-      <td><span class="status"><%= activity.status %></span></td>
+      <th></th>
+      <th></th>
     </tr>
-  <% end %>
-</table>
 
-<br />
+    <% @activities.each do |activity| %>
+      <tr>
+        <td><%= display_datetime(activity.updated_at) %> <a href="<%= url_for :controller => 'activities', :action => 'index', :user_id => activity.user.id%>"> <%=activity_user_name(activity)%></a> said </td>
+        <td><span class="status"><%= activity.status %></span></td>
+      </tr>
+    <% end %>
+  </table>
+</div>

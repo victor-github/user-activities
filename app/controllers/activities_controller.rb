@@ -22,7 +22,7 @@ class ActivitiesController < ApplicationController
   #GET /activities/latest_followed
   def latest_followed
     followed = current_user.follows.map(&:id)
-    since = 2.days.ago #TODO: configurable
+    since = SINCE #TODO: configurable
     t = Activity.arel_table
     @activities = Activity.where(t[:user_id].in(followed).and(t[:updated_at].gteq(since)).or(t[:user_id].eq(current_user.id))).order("updated_at desc")
   end
@@ -37,36 +37,16 @@ class ActivitiesController < ApplicationController
     end
   end
 
-  # GET /activities/new
-  def new
-    @activity = current_user.activities.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-    end
-  end
-
-  # GET /activities/1/edit
-  def edit
-    @activity = Activity.find(params[:id])
-  end
-
   # POST /activities
   def create
-
-    @activity = current_user.activities.new(params[:activity])
-
     respond_to do |format|
       if params[:activity][:status].present?
         @activity = current_user.add_activity(params[:activity][:status])
-        format.html { redirect_to @activity, notice: 'Activity was successfully created.' }
         format.json { render json: @activity, status: :created, location: @activity }
       else
-        format.html { render action: "new" }
-        format.json { render json: @activity.errors, status: :unprocessable_entity }
+        format.json { render json: {errors: "Invalid status"}, status: :unprocessable_entity }
       end
     end
   end
-
  
 end

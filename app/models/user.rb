@@ -13,6 +13,10 @@ class User < ActiveRecord::Base
     self.save!
   end
 
+  def unfollow(user)
+    self.follows.delete(user)
+  end
+
   def follows?(user)
     self.follows.include?(user)
   end

@@ -24,12 +24,19 @@ describe UsersController do
 
   describe "POST unfollow user_id" do 
     login_first_user
-    it "can follow the specified user, if a valid user_id was given" do
-      to_follow = FactoryGirl.create(:user, :id => 2)
-      subject.current_user.follow(to_follow)
+
+    it "can unfollow the specified user, if a valid user_id was given" do
+      to_unfollow = FactoryGirl.create(:user, :id => 2)
+      subject.current_user.follow(to_unfollow)
       post :unfollow, :user_id => 2, format: :json
-      subject.current_user.follows?(to_follow).should == false 
+      subject.current_user.follows?(to_unfollow).should == false 
     end
+    
+    it "returns errors if user_id specified was invalid" do
+      post :unfollow, :user_id => 2, format: :json
+      JSON.parse(response.body)['errors'].should == "No Such User"
+    end
+
   end
 
 end

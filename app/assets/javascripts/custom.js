@@ -2,7 +2,7 @@ $(function() {
   $('#post_update_button').on('click', function() {
     $.ajax({
       url: '/activities.json',
-      data: { activity: { status: $("#status_area").val() } },
+      data: { activity: { status: $("#status_input").val() } },
       type: "POST",
       async: false
     }).done(function(json) {
